@@ -1,0 +1,20 @@
+#! /bin/bash
+# SPDX-License-Identifier: Apache-2.0
+#===============================
+#
+# android-make [-db] ${VERSION} ${SOC} ${BOARD}
+#
+# 2021/09/15 Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+#===============================
+TOP=`readlink -f "$0" | xargs dirname`
+
+[ ! -d ${TOP}/scripts ] && git clone https://github.com/morimoto/renesas-android-script.git ${TOP}/scripts
+
+(
+	cd ${TOP}/scripts
+	git remote update --prune
+	git checkout origin/renesas-android/$1
+)
+[ $? != 0 ] && exit
+
+${TOP}/scripts/android-make $@

@@ -1,0 +1,6 @@
+/.repo
+/scripts/
+/package/salvator/SV00_Android_*
+/package/salvator/proprietary_*
+/android
+/renesas-android-*

@@ -1,0 +1,159 @@
+============== -*- outline -*- ==============
+
+                    README
+
+2021/09/16	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+=============================================
+
+----------------------
+* What is this ?
+----------------------
+	When you get Renesas Android BSP, it is difficult to understand
+	what you need to do to use it. This is one of helper for it.
+	This helps you to compile Renesas Android for you.
+
+----------------------
+* Note
+----------------------
+
+	This is *Un Official* Tool.
+	        ^^^^^^^^^^^^^^^^^^^
+	Contributor never take responsibility even though some issue happen.
+	            ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+----------------------
+* License ?
+----------------------
+
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+		http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+
+----------------------
+* Prepare
+----------------------
+
+**  tools
+
+	You need some packages.
+	renesas-android-maker is assuming you are using Ubuntu.
+
+		sudo apt-get install -y \
+			python-crypto liblz4-tool libncurses5 \
+
+**  Renesas Package
+
+	You need to have Renesas Package called as SV00_Android_xx_x.x_Software_001.zip
+	You can see how to get it by
+
+		> cat package/${board}/HOW_TO_GET
+
+	When you get the package, please move it to package/${board}
+
+	ex)
+		> mv SV00_Android_xx_x.zip  renesas-android-maker/package/${board}
+
+----------------------
+* Did you already try Renesas-Android-BSP ?
+----------------------
+
+	If you already tried Renesas-Android-BSP before, you can re-use its Android
+	repository (= mydroid/.repo). run below.
+
+		${BSP} : Renesas Android BSP
+
+		> mv ${BSP}/mydroid/.repo renesas-android-maker/
+		                   ^^^^^^
+	*NOTE*
+
+	We need is ".repo" (dot repo) which is keeping all git repositorys,
+	not "repo" command.
+
+----------------------
+* How to use ?
+----------------------
+
+	android-make <version> [-ub] <soc> <board>
+
+	version	: 10_1.2
+	-u	: use xxx-user for lunch
+		  (xxx-userdebug as default)
+	-b	: disable booting from eMMC
+		  IPL boots from eMMC as default
+	soc	: h3_4g
+		  h3_8g
+		  m3
+		  m3n
+	board	: salvator
+
+	see Renesas Android BSP manual for details.
+
+----------------------
+* How to flashing to board ?
+----------------------
+
+**  step1 - on Board
+
+	Flash bootloader to board. You can use renesas-bsp-rom-writer
+
+		https://github.com/morimoto/renesas-bsp-rom-writer
+		https://gitlab.com/morimoto.kuninori/renesas-bsp-rom-writer
+
+
+**  step2 - on Board
+
+	run below commands on Board after step1
+
+		=> mmc dev 1 1
+		=> mw.b 4f000000 0 200000
+		=> mmc write 4f000000 0 1000
+		=> mmc dev 1 2
+		=> mw.b 4f000000 0 200000
+		=> mmc write 4f000000 0 1000
+		=> reset
+		=> env default -a
+		=> setenv ethaddr <board MAC addr>
+		=> editenv serialno
+			Set board serial number to serialno: 0000XXXX (where XXXX = board number like 0585)
+		=> editenv bootargs
+			Edit bootargs: video=XXXX-X:d init_time=xxxxxxxxxx
+
+			"video"  variable needs to set parameter related to display configuration.
+			The default setting is below.
+			Salvator case: video=LVDS-1:d video=VGA-1:d
+
+			"init_time"  variable needs to set UNIX time.
+			You can get it by executing “date +%s” command on host PC.
+			The board don't have any RTC.
+			If time and date is not accurate, a few issues will be happened.
+		=> saveenv
+		=> reset
+		=> fastboot
+
+**  step3 - on Host PC
+
+	run below command on Host PC after step2
+
+		> cd ${renesas-android-maker}/renesas-android-${ver}-${soc}-${board}-${date}
+		> sudo ./fastboot    oem format
+		> sudo ./fastboot    reboot bootloader
+		> sudo ./fastboot.sh --noresetenv
+
+----------------------
+* FAQ
+----------------------
+
+**  It doesn't work correctly for me. How to clean these ?
+
+	You can use scripts/clean.sh.
+
+	ex)
+		> ./scripts/clean.sh

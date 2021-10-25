@@ -1,0 +1,8 @@
+***********************************************************
+
+Contact to Renesas Sales team or Renesas appointed store
+Sales team, get the package, and move it under package/salvator
+
+	> mv SV00_Android_[version]_Software_001.zip renesas-android-maker/package/salvator/
+
+***********************************************************
