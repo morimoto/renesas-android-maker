@@ -48,6 +48,7 @@
 
 		sudo apt-get install -y \
 			python-crypto liblz4-tool libncurses5 \
+			lzop libssl-dev python3-pycryptodome python3-pyelftools python3-crypto \
 
 **  Renesas Package
 
@@ -83,7 +84,8 @@
 
 	android-make <version> [-ub] <soc> <board>
 
-	version	: 10_2.0
+	version	: 11_1.0
+		  10_2.0
 		  10_1.2
 	-u	: use xxx-user for lunch
 		  (xxx-userdebug as default)
