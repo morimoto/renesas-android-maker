@@ -94,6 +94,7 @@
 		  m3
 		  m3n
 	board	: salvator
+		  kingfisher
 
 	see Renesas Android BSP manual for details.
 

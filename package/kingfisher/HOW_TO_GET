@@ -1,0 +1,22 @@
+***********************************************************
+
+Contact to elinux page and download it.
+
+Top page
+https://elinux.org/R-Car/Boards/Kingfisher/Android/Android_10
+
+Download page
+https://www.renesas.com/us/en/application/automotive/r-car-h3-m3-h2-m2-e2-documents-software
+
+You can find
+	R-Car Gen3 Android BSP
+	- R-Car H3 Starter Kit + Kingfisher Software Packages for Android xxx
+
+You can download "Gen3_Android_[version].zip" from above link.
+Unzip it and get Software/SV00_Android_[version].zip from it.
+Please set it under package/kingfisher
+
+	> unzip Gen3_Android_[version].zip
+	> mv Gen3_Android_[version]/Software/SV00_Android_[version].zip ${renesas-android-maker}/package/kingfisher
+
+***********************************************************

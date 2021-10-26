@@ -2,5 +2,7 @@
 /scripts/
 /package/salvator/SV00_Android_*
 /package/salvator/proprietary_*
+/package/kingfisher/SV00_Android_*
+/package/kingfisher/proprietary_*
 /android
 /renesas-android-*
