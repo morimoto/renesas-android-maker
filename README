@@ -83,7 +83,8 @@
 
 	android-make <version> [-ub] <soc> <board>
 
-	version	: 10_1.2
+	version	: 10_2.0
+		  10_1.2
 	-u	: use xxx-user for lunch
 		  (xxx-userdebug as default)
 	-b	: disable booting from eMMC
