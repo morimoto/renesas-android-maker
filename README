@@ -105,52 +105,27 @@
 * How to flashing to board ?
 ----------------------
 
-**  step1 - on Board
+	You can use renesas-bsp-rom-writer to flashing Android to Board.
 
-	Flash bootloader to board. You can use renesas-bsp-rom-writer
+		git clone https://github.com/morimoto/renesas-bsp-rom-writer.git
+	or	git clone https://gitlab.com/morimoto.kuninori/renesas-bsp-rom-writer.git
 
-		https://github.com/morimoto/renesas-bsp-rom-writer
-		https://gitlab.com/morimoto.kuninori/renesas-bsp-rom-writer
+	We need preparation to use it
 
+		> cd ${renesas-bsp-rom-writer}/${BOARD}/linux
+		> make
 
-**  step2 - on Board
+	Write Android bootloader to board.
+	You need to cd to created Renesas Android dir, and call ROM writer from there.
+	You can specify "android" as parameter.
 
-	run below commands on Board after step1
+		> cd ${renesas-android-maker}/renesas-android-${VERSION}-${SOC}-${BOARD}-userdebug-2021xxxx
+		> ${renesas-bsp-rom-writer}/${BOARD}/linux/rom_writer ${SOC} android ${VERSION} /dev/ttyUSBx
 
-		=> mmc dev 1 1
-		=> mw.b 4f000000 0 200000
-		=> mmc write 4f000000 0 1000
-		=> mmc dev 1 2
-		=> mw.b 4f000000 0 200000
-		=> mmc write 4f000000 0 1000
-		=> reset
-		=> env default -a
-		=> setenv ethaddr <board MAC addr>
-		=> editenv serialno
-			Set board serial number to serialno: 0000XXXX (where XXXX = board number like 0585)
-		=> editenv bootargs
-			Edit bootargs: video=XXXX-X:d init_time=xxxxxxxxxx
+	Next, Setup Android.
+	It needs to specify board's MAC address. You can find it on Ether connector.
 
-			"video"  variable needs to set parameter related to display configuration.
-			The default setting is below.
-			Salvator case: video=LVDS-1:d video=VGA-1:d
-
-			"init_time"  variable needs to set UNIX time.
-			You can get it by executing “date +%s” command on host PC.
-			The board don't have any RTC.
-			If time and date is not accurate, a few issues will be happened.
-		=> saveenv
-		=> reset
-		=> fastboot
-
-**  step3 - on Host PC
-
-	run below command on Host PC after step2
-
-		> cd ${renesas-android-maker}/renesas-android-${ver}-${soc}-${board}-${date}
-		> sudo ./fastboot    oem format
-		> sudo ./fastboot    reboot bootloader
-		> sudo ./fastboot.sh --noresetenv
+		> ${renesas-bsp-rom-writer}/${BOARD}/linux/android_setup 12:34:56:78:9a:bc /dev/ttyUSBx
 
 ----------------------
 * FAQ
