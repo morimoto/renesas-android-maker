@@ -47,6 +47,7 @@
 	renesas-android-maker is assuming you are using Ubuntu.
 
 		sudo apt-get install -y \
+			make python libc6-dev-i386 flex bison \
 			python-crypto liblz4-tool libncurses5 \
 			lzop libssl-dev python3-pycryptodome python3-pyelftools python3-crypto \
 
@@ -120,7 +121,7 @@
 	You can specify "android" as parameter.
 
 		> cd ${renesas-android-maker}/renesas-android-${VERSION}-${SOC}-${BOARD}-userdebug-2021xxxx
-		> ${renesas-bsp-rom-writer}/${BOARD}/linux/rom_writer ${SOC} android ${VERSION} /dev/ttyUSBx
+		> ${renesas-bsp-rom-writer}/${BOARD}/linux/rom_writer -a ${VERSION} ${SOC} /dev/ttyUSBx
 
 	Next, Setup Android.
 	It needs to specify board's MAC address. You can find it on Ether connector.
