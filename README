@@ -111,23 +111,6 @@
 		git clone https://github.com/morimoto/renesas-bsp-rom-writer.git
 	or	git clone https://gitlab.com/morimoto.kuninori/renesas-bsp-rom-writer.git
 
-	We need preparation to use it
-
-		> cd ${renesas-bsp-rom-writer}/${BOARD}/linux
-		> make
-
-	Write Android bootloader to board.
-	You need to cd to created Renesas Android dir, and call ROM writer from there.
-	You can specify "android" as parameter.
-
-		> cd ${renesas-android-maker}/renesas-android-${VERSION}-${SOC}-${BOARD}-userdebug-2021xxxx
-		> ${renesas-bsp-rom-writer}/${BOARD}/linux/rom_writer -a ${VERSION} ${SOC} /dev/ttyUSBx
-
-	Next, Setup Android.
-	It needs to specify board's MAC address. You can find it on Ether connector.
-
-		> ${renesas-bsp-rom-writer}/${BOARD}/linux/android_setup 12:34:56:78:9a:bc /dev/ttyUSBx
-
 ----------------------
 * FAQ
 ----------------------
